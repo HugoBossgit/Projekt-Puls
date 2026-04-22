@@ -1,0 +1,336 @@
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 1
+
+
+   1              		.file	"fstat.c"
+   2              		.option nopic
+   3              		.attribute arch, "rv32i2p0_m2p0_a2p0_c2p0"
+   4              		.attribute unaligned_access, 0
+   5              		.attribute stack_align, 16
+   6              		.text
+   7              	.Ltext0:
+   8              		.cfi_sections	.debug_frame
+   9              		.section	.text._fstat,"ax",@progbits
+  10              		.align	1
+  11              		.globl	_fstat
+  13              	_fstat:
+  14              	.LFB1:
+  15              		.file 1 "./../../firmware/RISCV/stubs/fstat.c"
+   1:./../../firmware/RISCV/stubs/fstat.c **** /* See LICENSE of license details. */
+   2:./../../firmware/RISCV/stubs/fstat.c **** 
+   3:./../../firmware/RISCV/stubs/fstat.c **** #include <errno.h>
+   4:./../../firmware/RISCV/stubs/fstat.c **** #include <unistd.h>
+   5:./../../firmware/RISCV/stubs/fstat.c **** #include <sys/stat.h>
+   6:./../../firmware/RISCV/stubs/fstat.c **** #include "stub.h"
+   7:./../../firmware/RISCV/stubs/fstat.c **** 
+   8:./../../firmware/RISCV/stubs/fstat.c **** int _fstat(int fd, struct stat* st)
+   9:./../../firmware/RISCV/stubs/fstat.c **** {
+  16              		.loc 1 9 1
+  17              		.cfi_startproc
+  18              	.LVL0:
+  10:./../../firmware/RISCV/stubs/fstat.c ****   if (isatty(fd)) {
+  19              		.loc 1 10 3
+   9:./../../firmware/RISCV/stubs/fstat.c ****   if (isatty(fd)) {
+  20              		.loc 1 9 1 is_stmt 0
+  21 0000 0111     		addi	sp,sp,-32
+  22              	.LCFI0:
+  23              		.cfi_def_cfa_offset 32
+  24 0002 06CE     		sw	ra,28(sp)
+  25              		.cfi_offset 1, -4
+   9:./../../firmware/RISCV/stubs/fstat.c ****   if (isatty(fd)) {
+  26              		.loc 1 9 1
+  27 0004 2EC6     		sw	a1,12(sp)
+  28              		.loc 1 10 7
+  29 0006 97000000 		call	isatty
+  29      E7800000 
+  30              	.LVL1:
+  31              		.loc 1 10 6
+  32 000e 01C9     		beq	a0,zero,.L3
+  11:./../../firmware/RISCV/stubs/fstat.c ****     st->st_mode = S_IFCHR;
+  33              		.loc 1 11 5 is_stmt 1
+  34              		.loc 1 11 17 is_stmt 0
+  35 0010 B245     		lw	a1,12(sp)
+  36 0012 8967     		li	a5,8192
+  12:./../../firmware/RISCV/stubs/fstat.c ****     return 0;
+  37              		.loc 1 12 12
+  38 0014 0145     		li	a0,0
+  11:./../../firmware/RISCV/stubs/fstat.c ****     st->st_mode = S_IFCHR;
+  39              		.loc 1 11 17
+  40 0016 DCC1     		sw	a5,4(a1)
+  41              		.loc 1 12 5 is_stmt 1
+  42              	.L1:
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 2
+
+
+  13:./../../firmware/RISCV/stubs/fstat.c ****   }
+  14:./../../firmware/RISCV/stubs/fstat.c **** 
+  15:./../../firmware/RISCV/stubs/fstat.c ****   return _stub(EBADF);
+  16:./../../firmware/RISCV/stubs/fstat.c **** }
+  43              		.loc 1 16 1 is_stmt 0
+  44 0018 F240     		lw	ra,28(sp)
+  45              		.cfi_remember_state
+  46              		.cfi_restore 1
+  47 001a 0561     		addi	sp,sp,32
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 0
+  50              	.LVL2:
+  51 001c 8280     		jr	ra
+  52              	.LVL3:
+  53              	.L3:
+  54              	.LCFI2:
+  55              		.cfi_restore_state
+  15:./../../firmware/RISCV/stubs/fstat.c **** }
+  56              		.loc 1 15 10
+  57 001e 7D55     		li	a0,-1
+  58 0020 E5BF     		j	.L1
+  59              		.cfi_endproc
+  60              	.LFE1:
+  62              		.text
+  63              	.Letext0:
+  64              		.file 2 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\lib\\gcc\\ris
+  65              		.file 3 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  66              		.file 4 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  67              		.file 5 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  68              		.file 6 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  69              		.file 7 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  70              		.file 8 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  71              		.file 9 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkno
+  72              		.file 10 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkn
+  73              		.file 11 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkn
+  74              		.file 12 "c:\\users\\hugo\\kth\\mikrodatorteknik\\toolchain-gd32v-v202-win\\compiler\\riscv64-unkn
+  75              		.file 13 "./../../firmware/RISCV/stubs/stub.h"
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 fstat.c
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:13     .text._fstat:0000000000000000 _fstat
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:17     .text._fstat:0000000000000000 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:19     .text._fstat:0000000000000000 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:20     .text._fstat:0000000000000000 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:21     .text._fstat:0000000000000000 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:23     .text._fstat:0000000000000002 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:25     .text._fstat:0000000000000004 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:27     .text._fstat:0000000000000004 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:29     .text._fstat:0000000000000006 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:32     .text._fstat:000000000000000e .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:34     .text._fstat:0000000000000010 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:35     .text._fstat:0000000000000010 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:38     .text._fstat:0000000000000014 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:40     .text._fstat:0000000000000016 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:43     .text._fstat:0000000000000018 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:44     .text._fstat:0000000000000018 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:45     .text._fstat:000000000000001a .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:46     .text._fstat:000000000000001a .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:49     .text._fstat:000000000000001c .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:55     .text._fstat:000000000000001e .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:57     .text._fstat:000000000000001e .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:59     .text._fstat:0000000000000022 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:62     .text._fstat:0000000000000022 .L0 
+                     .debug_frame:0000000000000000 .L0 
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:53     .text._fstat:000000000000001e .L3
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:42     .text._fstat:0000000000000018 .L1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:1932   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2842   .debug_str:00000000000005ba .LASF170
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2736   .debug_str:00000000000003c4 .LASF171
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2682   .debug_str:0000000000000291 .LASF172
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2536   .debug_ranges:0000000000000000 .Ldebug_ranges0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2542   .debug_line:0000000000000000 .Ldebug_line0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2674   .debug_str:000000000000026c .LASF0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2696   .debug_str:0000000000000311 .LASF1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2596   .debug_str:0000000000000108 .LASF2
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2730   .debug_str:00000000000003aa .LASF3
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2710   .debug_str:000000000000035c .LASF8
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2598   .debug_str:0000000000000116 .LASF4
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2758   .debug_str:0000000000000449 .LASF5
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2766   .debug_str:000000000000046c .LASF6
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2618   .debug_str:000000000000016f .LASF7
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2650   .debug_str:0000000000000202 .LASF9
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2684   .debug_str:00000000000002df .LASF10
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2574   .debug_str:000000000000008a .LASF11
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2586   .debug_str:00000000000000d4 .LASF12
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2616   .debug_str:0000000000000164 .LASF13
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2742   .debug_str:00000000000003fa .LASF14
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2744   .debug_str:0000000000000406 .LASF15
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2662   .debug_str:000000000000023b .LASF16
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2834   .debug_str:0000000000000597 .LASF17
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2548   .debug_str:0000000000000014 .LASF18
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2806   .debug_str:000000000000052a .LASF19
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2602   .debug_str:0000000000000128 .LASF20
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2546   .debug_str:000000000000000c .LASF21
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2818   .debug_str:000000000000055a .LASF22
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 4
+
+
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2862   .debug_str:000000000000069a .LASF23
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2706   .debug_str:000000000000034e .LASF24
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2676   .debug_str:0000000000000279 .LASF25
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2810   .debug_str:0000000000000538 .LASF26
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2812   .debug_str:0000000000000540 .LASF27
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2778   .debug_str:000000000000049f .LASF28
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2890   .debug_str:0000000000000717 .LASF29
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2848   .debug_str:0000000000000650 .LASF30
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2754   .debug_str:000000000000042e .LASF31
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2654   .debug_str:0000000000000213 .LASF32
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2658   .debug_str:0000000000000224 .LASF37
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2836   .debug_str:000000000000059f .LASF33
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2802   .debug_str:000000000000051b .LASF34
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2652   .debug_str:000000000000020d .LASF35
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2856   .debug_str:0000000000000685 .LASF36
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2672   .debug_str:0000000000000267 .LASF38
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2592   .debug_str:00000000000000fa .LASF39
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2828   .debug_str:0000000000000581 .LASF40
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2606   .debug_str:0000000000000137 .LASF41
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2894   .debug_str:000000000000072a .LASF42
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2738   .debug_str:00000000000003e9 .LASF43
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2724   .debug_str:0000000000000390 .LASF44
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2858   .debug_str:000000000000068a .LASF45
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2768   .debug_str:0000000000000476 .LASF46
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2874   .debug_str:00000000000006cf .LASF47
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2610   .debug_str:0000000000000146 .LASF48
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2644   .debug_str:00000000000001ef .LASF49
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2544   .debug_str:0000000000000000 .LASF50
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2844   .debug_str:0000000000000642 .LASF51
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2624   .debug_str:0000000000000189 .LASF52
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2740   .debug_str:00000000000003f2 .LASF53
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2794   .debug_str:00000000000004eb .LASF54
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2646   .debug_str:00000000000001f7 .LASF55
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2770   .debug_str:0000000000000480 .LASF56
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2604   .debug_str:0000000000000131 .LASF57
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2550   .debug_str:000000000000001c .LASF58
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2780   .debug_str:00000000000004aa .LASF59
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2622   .debug_str:0000000000000182 .LASF60
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2686   .debug_str:00000000000002f1 .LASF61
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2578   .debug_str:00000000000000ab .LASF62
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2612   .debug_str:0000000000000154 .LASF63
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2664   .debug_str:0000000000000243 .LASF64
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2722   .debug_str:0000000000000389 .LASF65
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2814   .debug_str:0000000000000548 .LASF66
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2878   .debug_str:00000000000006e9 .LASF67
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2600   .debug_str:0000000000000122 .LASF68
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2870   .debug_str:00000000000006c1 .LASF69
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2630   .debug_str:000000000000019f .LASF70
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2638   .debug_str:00000000000001c8 .LASF71
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2568   .debug_str:0000000000000064 .LASF72
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2712   .debug_str:0000000000000363 .LASF73
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2784   .debug_str:00000000000004bc .LASF74
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2716   .debug_str:0000000000000370 .LASF75
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2804   .debug_str:0000000000000523 .LASF76
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2822   .debug_str:000000000000056b .LASF77
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2626   .debug_str:0000000000000191 .LASF78
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2678   .debug_str:0000000000000280 .LASF79
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 5
+
+
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2656   .debug_str:000000000000021c .LASF80
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2792   .debug_str:00000000000004e6 .LASF81
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2558   .debug_str:0000000000000039 .LASF82
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2800   .debug_str:0000000000000502 .LASF83
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2796   .debug_str:00000000000004f0 .LASF84
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2632   .debug_str:00000000000001a8 .LASF85
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2798   .debug_str:00000000000004f8 .LASF86
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2704   .debug_str:0000000000000346 .LASF87
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2666   .debug_str:0000000000000249 .LASF88
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2888   .debug_str:0000000000000712 .LASF89
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2750   .debug_str:000000000000041a .LASF90
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2560   .debug_str:0000000000000044 .LASF91
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2636   .debug_str:00000000000001c0 .LASF92
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2760   .debug_str:0000000000000457 .LASF93
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2698   .debug_str:0000000000000324 .LASF94
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2866   .debug_str:00000000000006ad .LASF95
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2614   .debug_str:000000000000015c .LASF96
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2608   .debug_str:0000000000000141 .LASF97
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2824   .debug_str:0000000000000572 .LASF98
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2776   .debug_str:0000000000000498 .LASF99
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2860   .debug_str:0000000000000694 .LASF100
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2692   .debug_str:0000000000000304 .LASF101
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2774   .debug_str:0000000000000492 .LASF102
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2554   .debug_str:000000000000002a .LASF103
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2808   .debug_str:0000000000000532 .LASF104
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2832   .debug_str:0000000000000591 .LASF105
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2846   .debug_str:000000000000064b .LASF106
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2854   .debug_str:0000000000000678 .LASF107
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2838   .debug_str:00000000000005a5 .LASF108
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2702   .debug_str:0000000000000339 .LASF109
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2876   .debug_str:00000000000006da .LASF110
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2660   .debug_str:000000000000022c .LASF111
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2786   .debug_str:00000000000004c5 .LASF112
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2880   .debug_str:00000000000006f0 .LASF113
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2790   .debug_str:00000000000004d9 .LASF114
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2886   .debug_str:0000000000000704 .LASF115
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2590   .debug_str:00000000000000ec .LASF116
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2864   .debug_str:00000000000006a3 .LASF117
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2700   .debug_str:000000000000032d .LASF118
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2850   .debug_str:0000000000000658 .LASF119
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2642   .debug_str:00000000000001e1 .LASF120
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2584   .debug_str:00000000000000c5 .LASF121
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2640   .debug_str:00000000000001d0 .LASF122
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2570   .debug_str:000000000000006a .LASF123
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2572   .debug_str:0000000000000079 .LASF124
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2764   .debug_str:0000000000000463 .LASF125
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2734   .debug_str:00000000000003bd .LASF126
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2726   .debug_str:000000000000039a .LASF127
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2872   .debug_str:00000000000006c7 .LASF128
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2580   .debug_str:00000000000000b4 .LASF173
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2816   .debug_str:000000000000054e .LASF129
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2852   .debug_str:0000000000000665 .LASF130
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2634   .debug_str:00000000000001b3 .LASF131
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2782   .debug_str:00000000000004b2 .LASF132
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2748   .debug_str:0000000000000413 .LASF133
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2680   .debug_str:0000000000000288 .LASF134
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2868   .debug_str:00000000000006b7 .LASF135
+GAS LISTING C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s 			page 6
+
+
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2896   .debug_str:0000000000000734 .LASF136
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2688   .debug_str:00000000000002f7 .LASF137
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2746   .debug_str:000000000000040d .LASF138
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2694   .debug_str:000000000000030b .LASF139
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2648   .debug_str:00000000000001fc .LASF140
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2556   .debug_str:0000000000000032 .LASF141
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2552   .debug_str:0000000000000022 .LASF142
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2708   .debug_str:0000000000000354 .LASF143
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2728   .debug_str:00000000000003a3 .LASF144
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2732   .debug_str:00000000000003b6 .LASF145
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2830   .debug_str:000000000000058a .LASF146
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2882   .debug_str:00000000000006f5 .LASF147
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2720   .debug_str:0000000000000380 .LASF148
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2752   .debug_str:0000000000000424 .LASF149
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2562   .debug_str:000000000000004c .LASF150
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2588   .debug_str:00000000000000e4 .LASF151
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2594   .debug_str:0000000000000103 .LASF152
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2564   .debug_str:0000000000000056 .LASF153
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2762   .debug_str:000000000000045c .LASF154
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2840   .debug_str:00000000000005b2 .LASF155
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2756   .debug_str:0000000000000440 .LASF156
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2690   .debug_str:00000000000002fd .LASF157
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2566   .debug_str:000000000000005d .LASF158
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2884   .debug_str:00000000000006fc .LASF159
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2718   .debug_str:0000000000000378 .LASF160
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2820   .debug_str:0000000000000562 .LASF161
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2668   .debug_str:0000000000000253 .LASF162
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2892   .debug_str:0000000000000721 .LASF163
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2670   .debug_str:000000000000025d .LASF164
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2788   .debug_str:00000000000004d0 .LASF165
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2620   .debug_str:0000000000000178 .LASF166
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2772   .debug_str:0000000000000487 .LASF167
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2576   .debug_str:00000000000000a1 .LASF168
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2826   .debug_str:0000000000000577 .LASF169
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2628   .debug_str:0000000000000198 .LASF174
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:14     .text._fstat:0000000000000000 .LFB1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:60     .text._fstat:0000000000000022 .LFE1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2464   .debug_loc:0000000000000000 .LLST0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2487   .debug_loc:0000000000000038 .LLST1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2501   .debug_loc:0000000000000059 .LLST2
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:30     .text._fstat:000000000000000e .LVL1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2582   .debug_str:00000000000000bf .LASF175
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:2714   .debug_str:0000000000000369 .LASF176
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:22     .text._fstat:0000000000000002 .LCFI0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:48     .text._fstat:000000000000001c .LCFI1
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:54     .text._fstat:000000000000001e .LCFI2
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:18     .text._fstat:0000000000000000 .LVL0
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:50     .text._fstat:000000000000001c .LVL2
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:52     .text._fstat:000000000000001e .LVL3
+C:\Users\hugo\AppData\Local\Temp\cc4bnjly.s:77     .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+isatty
