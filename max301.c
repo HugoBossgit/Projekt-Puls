@@ -17,6 +17,9 @@
 #define REG_LED2_PA 0x0D // IR LED
 #define REG_PART_ID 0xFF
 
+#define I2C_TIMEOUT 100000
+
+
 volatile uint8_t data_ready = 0;
 
 uint32_t last_beat_time = 0;
@@ -68,25 +71,37 @@ void max301init(void)
 -------------------------------------------------- */
 void max30102_write_reg(uint8_t reg, uint8_t value)
 {
-    i2c_start_on_bus(I2C0);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND))
-        ;
+    int timeout;
 
+    // START
+    i2c_start_on_bus(I2C0);
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
+
+    // ADDRESS (write)
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_TRANSMITTER);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
+    // SEND REGISTER
     i2c_data_transmit(I2C0, reg);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
 
+    // SEND VALUE
     i2c_data_transmit(I2C0, value);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
 
+    // STOP
     i2c_stop_on_bus(I2C0);
 }
+
 
 /* --------------------------------------------------
    Läser ett register
@@ -94,37 +109,54 @@ void max30102_write_reg(uint8_t reg, uint8_t value)
 uint8_t max30102_read_reg(uint8_t reg)
 {
     uint8_t data;
+    int timeout;
 
+    // START (write phase)
     i2c_start_on_bus(I2C0);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
 
+    // ADDRESS (write)
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_TRANSMITTER);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
+    // SEND REGISTER ADDRESS
     i2c_data_transmit(I2C0, reg);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
 
+    // RESTART (read phase)
     i2c_start_on_bus(I2C0);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
 
+    // ADDRESS (read)
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_RECEIVER);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
-    while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE))
-        ;
+    // WAIT FOR BYTE
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return 0; }
+
+    // READ BYTE
     data = i2c_data_receive(I2C0);
 
+    // STOP
     i2c_stop_on_bus(I2C0);
 
     return data;
 }
+
 
 /* --------------------------------------------------
    Väcker och konfigurerar MAX30102
@@ -159,9 +191,12 @@ void max30102_wakeup(void)
     max30102_read_reg(REG_INTR_STATUS_1);
     max30102_read_reg(REG_INTR_STATUS_2);
 
-    // Aktivera PPG_RDY interrupt sist
-    max30102_write_reg(REG_INTR_ENABLE_1, 0x80);
+    // bara PPG_RDY
+    max30102_write_reg(REG_INTR_ENABLE_1, 0x40);
+    // eller både A_FULL + PPG_RDY:
+    /// max30102_write_reg(REG_INTR_ENABLE_1, 0xC0);
     max30102_write_reg(REG_INTR_ENABLE_2, 0x00);
+
 }
 
 /* --------------------------------------------------
@@ -194,73 +229,70 @@ uint8_t max30102_get_part_id(void)
    Läser 6 bytes från FIFO:
    3 bytes RED + 3 bytes IR
 -------------------------------------------------- */
-#define I2C_TIMEOUT 100000
 
 void max30102_read_fifo(uint32_t *red, uint32_t *ir)
 {
     uint8_t data[6];
+    int timeout;
 
     // Write register pointer
     i2c_start_on_bus(I2C0);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
 
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_TRANSMITTER);
-    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND))
-        ;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
     i2c_data_transmit(I2C0, REG_FIFO_DATA);
-    int timeout = 100000;
-    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--)
-        ;
-    if (timeout <= 0)
-        return;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
 
     // Restart + read
     i2c_start_on_bus(I2C0);
-    timeout = 100000;
-    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--)
-        ;
-    if (timeout <= 0)
-        return;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
 
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_RECEIVER);
-    timeout = 100000;
-    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--)
-        ;
-    if (timeout <= 0)
-        return;
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
     // Read 5 bytes with ACK
-    for (int i = 0; i < 5; i++)
-    {
-        timeout = 100000;
-        while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--)
-            ;
-        if (timeout <= 0)
-            return;
+    for (int i = 0; i < 5; i++) {
+        timeout = I2C_TIMEOUT;
+        while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--);
+        if (timeout <= 0) { i2c_stop_on_bus(I2C0); return; }
         data[i] = i2c_data_receive(I2C0);
     }
 
     // Last byte with NACK
     i2c_ack_config(I2C0, I2C_ACK_DISABLE);
-    timeout = 100000;
-    while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--)
-        ;
-    if (timeout <= 0)
-        return; data[5] = i2c_data_receive(I2C0);
+    timeout = I2C_TIMEOUT;
+    while (!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--);
+    if (timeout <= 0) {
+        i2c_stop_on_bus(I2C0);
+        i2c_ack_config(I2C0, I2C_ACK_ENABLE);
+        return;
+    }
+    data[5] = i2c_data_receive(I2C0);
 
     i2c_stop_on_bus(I2C0);
     i2c_ack_config(I2C0, I2C_ACK_ENABLE);
 
     *red = ((uint32_t)data[0] << 16) | ((uint32_t)data[1] << 8) | data[2];
-    *ir = ((uint32_t)data[3] << 16) | ((uint32_t)data[4] << 8) | data[5];
+    *ir  = ((uint32_t)data[3] << 16) | ((uint32_t)data[4] << 8) | data[5];
 
     *red &= 0x03FFFF;
-    *ir &= 0x03FFFF;
+    *ir  &= 0x03FFFF;
 }
+
 
 /* --------------------------------------------------
    Interrupt från PA8
@@ -269,6 +301,9 @@ void EXTI5_9_IRQHandler(void)
 {
     if (exti_interrupt_flag_get(EXTI_8))
     {
+        // rensa MAX30102:s egna interrupt
+        max30102_read_reg(REG_INTR_STATUS_1);
+        max30102_read_reg(REG_INTR_STATUS_2);
 
         data_ready = 1;
 
