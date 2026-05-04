@@ -13,18 +13,43 @@
 #include "gd32vf103_gpio.h"
 #include "gd32vf103_rcu.h"
 
+#include "gd32vf103.h"
+#include "gd32vf103_gpio.h"
+#include "gd32vf103_rcu.h"
+
+#include "gd32vf103.h"
+#include "gd32vf103_gpio.h"
+#include "gd32vf103_rcu.h"
+
+#define THRESHOLD 20000
+
 int main(void)
 {
-    rcu_periph_clock_enable(RCU_GPIOC);
+    Lcd_Init();
+    max301init();
+    max30102_wakeup();
+	Lcd_SetType(LCD_NORMAL);
+	LCD_Clear(WHITE);
 
-    gpio_init(GPIOC, GPIO_MODE_OUT_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_13);
+    // töm FIFO en gång
+    for (int i = 0; i < 32; i++) {
+        uint32_t r, ir;
+        max30102_read_fifo(&r, &ir);
+    }
+
+	LCD_ShowStr(0, 0, "Red: ", BLACK, TRANSPARENT);
 
     while(1)
     {
-        gpio_bit_reset(GPIOC, GPIO_PIN_13); // låg
-        for(volatile int i = 0; i < 1000000; i++);
+        if (data_ready) {
+            data_ready = 0;
 
-        gpio_bit_set(GPIOC, GPIO_PIN_13);   // hög
-        for(volatile int i = 0; i < 1000000; i++);
+            uint32_t red, ir;
+            max30102_read_fifo(&red, &ir);
+
+            //LCD_ShowStr(0, 0, "Red: ", BLACK, TRANSPARENT);
+            //LCD_ShowNum(40, 0, red, 6, BLACK, TRANSPARENT);
+        }
     }
 }
+
