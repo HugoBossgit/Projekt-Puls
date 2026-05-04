@@ -1,5 +1,10 @@
 #include "gd32vf103.h"
 #include "lcd.h"
+#include "max301.h"
+
+#include "gd32vf103_i2c.h"
+#include "gd32vf103_gpio.h"
+#include "gd32vf103_rcu.h"
 
 int main(){
 	rcu_periph_clock_enable(RCU_GPIOA);
@@ -14,8 +19,21 @@ int main(){
     LCD_Clear(WHITE);
 	LCD_ShowStr(20, 1, "PROJECT SAVE", BLACK, TRANSPARENT);
 	LCD_ShowStr(20, 30, "THE WORLD", BLACK, TRANSPARENT);
+	
+	max301init();
+
+	uint8_t id = max30102_read_reg(0xFF);
+
+    if(id == 0x15) {
+        gpio_bit_reset(GPIOA, GPIO_PIN_1);
+		gpio_bit_set(GPIOA, GPIO_PIN_2);
+		gpio_bit_set(GPIOC, GPIO_PIN_13);
+    } else {
+        // ingen kontakt
+    }
+
 	while(1){
-		gpio_bit_reset(GPIOC, GPIO_PIN_13);
+	/*	gpio_bit_reset(GPIOC, GPIO_PIN_13);
 		gpio_bit_set(GPIOA, GPIO_PIN_1 | GPIO_PIN_2);
 		for(volatile int i = 0; i < 5000000; i++);
 		gpio_bit_reset(GPIOA, GPIO_PIN_1);
@@ -25,7 +43,7 @@ int main(){
 		gpio_bit_reset(GPIOA, GPIO_PIN_2);
 		gpio_bit_set(GPIOA, GPIO_PIN_1);
 		gpio_bit_set(GPIOC, GPIO_PIN_13);
-		for(volatile int i = 0; i < 5000000; i++);
-	}
+		for(volatile int i = 0; i < 5000000; i++);*/
+	} 
 
 }
