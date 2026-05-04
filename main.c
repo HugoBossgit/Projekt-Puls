@@ -7,55 +7,42 @@
 #include "gd32vf103_gpio.h"
 #include "gd32vf103_rcu.h"
 
-#define IR_THRESHOLD 50000
-
-#include "gd32vf103.h"
-#include "gd32vf103_gpio.h"
-#include "gd32vf103_rcu.h"
-
-#include "gd32vf103.h"
-#include "gd32vf103_gpio.h"
-#include "gd32vf103_rcu.h"
-
-#include "gd32vf103.h"
-#include "gd32vf103_gpio.h"
-#include "gd32vf103_rcu.h"
-
-#define THRESHOLD 20000
-
 int main(void)
 {
-    Lcd_Init();
-    max301init();
-    max30102_wakeup();
+	uint32_t red_value = 0;
+	uint32_t ir_value = 0;
+	uint8_t stat = 0;
 
-    Lcd_SetType(LCD_NORMAL);
-    LCD_Clear(BLACK);
+	Lcd_Init();
+	Lcd_SetType(LCD_NORMAL);
+	LCD_Clear(BLACK);
 
-    uint8_t id = max30102_get_part_id();
-    char buf[16];
-    sprintf(buf, "ID=%02X", id);
-    LCD_ShowStr(0, 16, buf, WHITE, TRANSPARENT);
+	LCD_ShowStr(0, 0, (const u8 *)"START", WHITE, TRANSPARENT);
 
-    // töm FIFO en gång
-    for (int i = 0; i < 32; i++) {
-        uint32_t r, ir;
-        max30102_read_fifo(&r, &ir);
-    }
+	max301init();
+	max30102_wakeup();
 
-    LCD_ShowStr(0, 0, "Red: ", WHITE, TRANSPARENT);
+	for (volatile int i = 0; i < 3000000; i++)
+		;
 
-    while(1)
-    {
-        //if (data_ready) {
-            data_ready = 0;
+	while (1)
+	{
+		max30102_read_fifo(&red_value, &ir_value);
 
-            uint32_t red, ir;
-            max30102_read_fifo(&red, &ir);
+		LCD_Clear(BLACK);
 
-            LCD_ShowNum(40, 0, red, 6, WHITE);
-        //}
-    }
+		LCD_ShowStr(0, 0, (const u8 *)"RED", WHITE, TRANSPARENT);
+		LCD_ShowNum(50, 0, red_value, 6, WHITE);
+
+		LCD_ShowStr(0, 20, (const u8 *)"IR", WHITE, TRANSPARENT);
+		LCD_ShowNum(50, 20, ir_value, 6, WHITE);
+
+		for (volatile int i = 0; i < 500000; i++)
+			;
+		for (int i = 0; i < 32; i++)
+		{
+			uint32_t r, ir;
+			max30102_read_fifo(&r, &ir);
+		}
+	}
 }
-
-
