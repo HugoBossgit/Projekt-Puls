@@ -12,7 +12,8 @@ int main(){
 	Lcd_SetType(LCD_NORMAL);
     Lcd_Init();
     LCD_Clear(WHITE);
-	LCD_ShowStr(10, 10, "PROJECT SAVE THE WORLD", BLACK, TRANSPARENT);
+	LCD_ShowStr(20, 1, "PROJECT SAVE", BLACK, TRANSPARENT);
+	LCD_ShowStr(20, 30, "THE WORLD", BLACK, TRANSPARENT);
 	while(1){
 		gpio_bit_reset(GPIOC, GPIO_PIN_13);
 		gpio_bit_set(GPIOA, GPIO_PIN_1 | GPIO_PIN_2);
