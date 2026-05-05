@@ -282,38 +282,71 @@ uint8_t max30102_get_part_id(void)
 void max30102_read_fifo(uint32_t *red, uint32_t *ir)
 {
     uint8_t data[6];
+    int timeout;
 
     i2c_ack_config(I2C0, I2C_ACK_ENABLE);
 
+    // START
     i2c_start_on_bus(I2C0);
-    while(!i2c_flag_get(I2C0, I2C_FLAG_SBSEND));
 
+    timeout = I2C_TIMEOUT;
+    while(!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if(timeout <= 0) return;
+
+    // ADDRESS WRITE
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_TRANSMITTER);
-    while(!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND));
+
+    timeout = I2C_TIMEOUT;
+    while(!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if(timeout <= 0) return;
+
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
+    // REGISTER
     i2c_data_transmit(I2C0, REG_FIFO_DATA);
-    while(!i2c_flag_get(I2C0, I2C_FLAG_TBE));
 
+    timeout = I2C_TIMEOUT;
+    while(!i2c_flag_get(I2C0, I2C_FLAG_TBE) && timeout--);
+    if(timeout <= 0) return;
+
+    // RESTART
     i2c_start_on_bus(I2C0);
-    while(!i2c_flag_get(I2C0, I2C_FLAG_SBSEND));
 
+    timeout = I2C_TIMEOUT;
+    while(!i2c_flag_get(I2C0, I2C_FLAG_SBSEND) && timeout--);
+    if(timeout <= 0) return;
+
+    // ADDRESS READ
     i2c_master_addressing(I2C0, MAX30102_ADDR, I2C_RECEIVER);
-    while(!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND));
+
+    timeout = I2C_TIMEOUT;
+    while(!i2c_flag_get(I2C0, I2C_FLAG_ADDSEND) && timeout--);
+    if(timeout <= 0) return;
+
     i2c_flag_clear(I2C0, I2C_FLAG_ADDSEND);
 
+    // READ 6 BYTES
     for(int i = 0; i < 6; i++)
     {
-        while(!i2c_flag_get(I2C0, I2C_FLAG_RBNE));
+        timeout = I2C_TIMEOUT;
+        while(!i2c_flag_get(I2C0, I2C_FLAG_RBNE) && timeout--);
 
-        if(i == 5)
+        if(timeout <= 0)
+        {
+            i2c_stop_on_bus(I2C0);
+            return;
+        }
+
+        // Disable ACK BEFORE last byte
+        if(i == 4)
         {
             i2c_ack_config(I2C0, I2C_ACK_DISABLE);
-            i2c_stop_on_bus(I2C0);
         }
 
         data[i] = i2c_data_receive(I2C0);
     }
+
+    i2c_stop_on_bus(I2C0);
 
     i2c_ack_config(I2C0, I2C_ACK_ENABLE);
 
