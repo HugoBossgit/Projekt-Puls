@@ -52,7 +52,7 @@ void max301init(void)
     rcu_periph_clock_enable(RCU_AF);
 
     gpio_init(GPIOA,
-              GPIO_MODE_IPU,
+              GPIO_MODE_IN_FLOATING,
               GPIO_OSPEED_50MHZ,
               GPIO_PIN_8);
 
@@ -226,11 +226,11 @@ void max30102_wakeup(void)
     max30102_write_reg(REG_FIFO_CONFIG, 0x00);
 
     // SpO2 config
-    max30102_write_reg(REG_SPO2_CONFIG, 0x27);
+    max30102_write_reg(REG_SPO2_CONFIG, 0x23);
 
     // LED current
-    max30102_write_reg(REG_LED1_PA, 0x3F);
-    max30102_write_reg(REG_LED2_PA, 0x3F);
+    max30102_write_reg(REG_LED1_PA, 0x1F);
+    max30102_write_reg(REG_LED2_PA, 0x1F);
 
     // Slot config
     max30102_write_reg(REG_MULTI_LED_CTRL1, 0x21); // slot1=RED, slot2=IR

@@ -20,29 +20,36 @@ int main(void)
 	LCD_ShowStr(0, 0, (const u8 *)"START", WHITE, TRANSPARENT);
 
 	max301init();
+	eclic_global_interrupt_enable();
 	max30102_wakeup();
 
-	for (volatile int i = 0; i < 3000000; i++)
-		;
+	for (volatile int i = 0; i < 3000000; i++);
+
+	
+	static uint8_t counter = 0;
 
 	while (1)
 	{
-		max30102_read_fifo(&red_value, &ir_value);
-
-		LCD_Clear(BLACK);
-
-		LCD_ShowStr(0, 0, (const u8 *)"RED", WHITE, TRANSPARENT);
-		LCD_ShowNum(50, 0, red_value, 6, WHITE);
-
-		LCD_ShowStr(0, 20, (const u8 *)"IR", WHITE, TRANSPARENT);
-		LCD_ShowNum(50, 20, ir_value, 6, WHITE);
-
-		for (volatile int i = 0; i < 500000; i++)
-			;
-		for (int i = 0; i < 32; i++)
+		if(data_ready)
 		{
-			uint32_t r, ir;
-			max30102_read_fifo(&r, &ir);
+			data_ready = 0;
+
+			max30102_read_fifo(&red_value, &ir_value);
+
+			counter++;
+
+			if(counter >= 5)
+			{
+				counter = 0;
+
+				LCD_Clear(BLACK);
+
+				LCD_ShowStr(0, 0, (const u8 *)"RED", WHITE, TRANSPARENT);
+				LCD_ShowNum(50, 0, red_value, 6, WHITE);
+
+				LCD_ShowStr(0, 20, (const u8 *)"IR", WHITE, TRANSPARENT);
+				LCD_ShowNum(50, 20, ir_value, 6, WHITE);
+			}
 		}
 	}
 }
