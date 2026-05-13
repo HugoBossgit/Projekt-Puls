@@ -2,6 +2,7 @@
 #include "lcd.h"
 #include "max301.h"
 #include <stdio.h>
+#include "drivers.h"
 
 #include "gd32vf103_i2c.h"
 #include "gd32vf103_gpio.h"
@@ -17,7 +18,7 @@ int main(void)
 	Lcd_SetType(LCD_NORMAL);
 	LCD_Clear(BLACK);
 
-	LCD_ShowStr(0, 0, (const u8 *)"START", WHITE, TRANSPARENT);
+	//LCD_ShowStr(0, 0, (const u8 *)"START", WHITE, TRANSPARENT);
 
 	max301init();
 	eclic_global_interrupt_enable();
@@ -27,9 +28,15 @@ int main(void)
 
 	
 	static uint8_t counter = 0;
+	static uint32_t ms_counter = 0;
+    t5omsi();  
 
-	while (1)
-	{
+    while(1)
+    {
+        if(t5expq())
+        {
+            ms_counter++;
+        }
 		if(data_ready)
 		{
 			data_ready = 0;
@@ -44,11 +51,17 @@ int main(void)
 
 				LCD_Clear(BLACK);
 
-				LCD_ShowStr(0, 0, (const u8 *)"RED", WHITE, TRANSPARENT);
-				LCD_ShowNum(50, 0, red_value, 6, WHITE);
+				LCD_ShowStr(0, 0, (const u8 *)"TIME:", WHITE, TRANSPARENT);
+				LCD_ShowNum(0, 40, ms_counter, 6, WHITE);
 
-				LCD_ShowStr(0, 20, (const u8 *)"IR", WHITE, TRANSPARENT);
-				LCD_ShowNum(50, 20, ir_value, 6, WHITE);
+				/*if(ir_value < 1500)
+				{
+					LCD_ShowStr(10, 20, (const u8 *)"NO MEASUREMENT", WHITE, TRANSPARENT);
+				}
+				else
+				{
+					 LCD_ShowNum(40, 40, ir_value, 6, WHITE);
+				}*/
 			}
 		}
 	}
