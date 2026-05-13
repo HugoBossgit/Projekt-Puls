@@ -19,6 +19,9 @@ uint8_t max30102_read_reg(uint8_t);
 
 extern volatile uint8_t data_ready;
 
+extern uint32_t ir_value;
+extern uint32_t red_value;
+
 void max301init(void);
 void max30102_wakeup(void);
 uint8_t max30102_is_awake(void);
