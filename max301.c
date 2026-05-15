@@ -223,18 +223,19 @@ void max30102_wakeup(void)
     max30102_write_reg(REG_FIFO_RD_PTR, 0x00);
 
     // FIFO config
-    max30102_write_reg(REG_FIFO_CONFIG, 0x00);
+    max30102_write_reg(REG_FIFO_CONFIG, 0x40);
 
     // SpO2 config
-    max30102_write_reg(REG_SPO2_CONFIG, 0x23);
+    max30102_write_reg(REG_SPO2_CONFIG, 0x28);
 
     // LED current
-    max30102_write_reg(REG_LED1_PA, 0x1F);
-    max30102_write_reg(REG_LED2_PA, 0x1F);
+    max30102_write_reg(REG_LED1_PA, 0x00); // Red LED off
+    max30102_write_reg(REG_LED2_PA, 0x10); // IR LED at 16 (out of 255)
 
     // Slot config
     max30102_write_reg(REG_MULTI_LED_CTRL1, 0x21); // slot1=RED, slot2=IR
     max30102_write_reg(REG_MULTI_LED_CTRL2, 0x00);
+
 
     // Start SpO2 mode
     max30102_write_reg(REG_MODE_CONFIG, 0x03);
